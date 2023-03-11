@@ -13,16 +13,16 @@
     $db = $database->connect();
 
     // Instantiate Category Object
-    $category = new Category($db);
+    $category_object = new Category($db);
 
     // Get Raw Category Data
     $data = json_decode(file_get_contents("php://input"));
 
     // Set ID of Category to Delete
-    $category->id = $data->id;
+    $category_object->id = $data->id;
 
     // Delete Category
-    if($category->delete()) {
+    if($category_object->delete()) {
         echo json_encode(
             array('message' => 'Category Deleted')
         );

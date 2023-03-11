@@ -6,28 +6,28 @@
     header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
     include_once '../../config/Database.php';
-    include_once '../../models/Category.php';
+    include_once '../../models/Author.php';
 
     // Instantiate DB and Connect
     $database = new Database();
     $db = $database->connect();
 
-    // Instantiate Category Object
-    $category_object = new Category($db);
+    // Instantiate Author Object
+    $author_object = new Author($db);
 
     // Get Raw User Input Data
     $data = json_decode(file_get_contents("php://input"));
 
-    // Assign Input from User to the New Category
-    $category_object->category = $data->category;
+    // Assign Input from User to the New Author
+    $author_object->author = $data->author;
 
-    // Create Category
-    if($category_object->create()) {
+    // Create Author
+    if($author_object->create()) {
         echo json_encode(
-            array('message' => 'Category Created')
+            array('message' => 'Author Created')
         );
     } else {
         echo json_encode(
-            array('message' => 'Category Not Created')
+            array('message' => 'Author Not Created')
         );
     }
