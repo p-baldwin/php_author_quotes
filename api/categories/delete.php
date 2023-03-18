@@ -42,6 +42,6 @@
     } catch(PDOException $e) {
         // This code executes if the call to delete() fails.
         echo json_encode(
-            array('message' => "{$e->getMessage()}");
+            array('message' => "{$e->getMessage()}")
         );
     }

@@ -23,6 +23,7 @@
         echo json_encode(
             array('message' => 'Missing Required Parameters')
         );
+        exit();
     }
 
     // Assign Input from User to the New Author
