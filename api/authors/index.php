@@ -31,10 +31,8 @@
         // Determine if the use is search for single author or many authors.
         case 'GET':
             if($id) {
-                echo('read_once');
                 include_once "./read_single.php";
             } else {
-                echo('read');
                 include_once './read.php';
             }
             break;

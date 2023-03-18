@@ -30,20 +30,14 @@
 
     // Instantiate Quote Object
     $quote_object = new Quote($db);
-    echo $method;
-    echo($id);
-    echo($author_id);
-    echo($category_id);
 
     // Select the appropriate endpoint based on the method used
     switch($method) {
         // Determine if the use is search for single quote or many quotes.
         case 'GET':
             if($id && empty($author_id) && empty($category_id)) {
-                echo('read_once');
                 include_once "./read_single.php";
             } else {
-                echo('read');
                 include_once './read.php';
             }
             break;
