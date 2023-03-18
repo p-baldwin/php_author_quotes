@@ -1,4 +1,14 @@
 <?php
+/*  The Database class encapsulates all of the details and information to 
+    create, instantiate, and return a database connection object. It collects 
+    the secret variables from the environment, creates a connection to the named 
+    database, and returns the connection. If connection fails, the object 
+    reports the failure.
+
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
+
     class Database {
         // DB Parameters
         private $host;

@@ -1,23 +1,17 @@
 <?php
-    // Headers
-    // header('Access-Control-Allow-Origin: *');
-    // header('Content-Type: application/json');
-    // header('Access-Control-Allow-Methods: POST');
-    // header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+/*  categories/create.php provides an endpoint to create a new category record 
+    in the database. It checks that input has been provided and that it is valid 
+    before attempting to create the record. Errors return messages about the 
+    reason for failed attempts to add a new category.
 
-/*     include_once '../../config/Database.php';
-    include_once '../../models/Category.php';
+    Shared headers, include files, objects, and user data are provided by the
+    index.php file. This behavior ensures this endpoint will throw an error if 
+    it is used without passing through index.php first.
 
-    // Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
-
-    // Instantiate Category Object
-    $category_object = new Category($db);
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
  */
-/*     // Get Raw User Input Data
-    $data = json_decode(file_get_contents("php://input"));
- */
+
     // Check that we have a category name from the user. If we do, attempt to 
     // create the New Category.
     if(empty($data->category)) {
@@ -40,10 +34,10 @@
                 'category' => $category_object->category
             )
         );
-    } catch (PDOException $e) {
+    } catch(PDOException $e) {
         // This code executes if the $data->category exceeds the size of the 
         // table column.
         echo json_encode(
-                array("error" => "{$e->getMessage()}")
-            );
+            array("error" => "{$e->getMessage()}")
+        );
     }

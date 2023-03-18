@@ -1,5 +1,16 @@
 <?php
-// Categories Class
+/*  The Author Class encapsulates all of the properties and methods required to 
+    interact with the authors table of the database provided to it. The database 
+    passed to the class on construction must have a table named authors with two 
+    columns: id and author.
+
+    The methods read, read_single, create, update, and delete provide the data 
+    requested by the authors api endpoints by the same name.
+
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
+
     class Author {
         // DB Connection Properties
         private $conn;

@@ -1,5 +1,16 @@
 <?php
-// Categories Class
+/*  The Category Class encapsulates all of the properties and methods required 
+    to interact with the categories table of the database provided to it. The 
+    database passed to the class on construction must have a table named 
+    categories with two columns: id and category.
+
+    The methods read, read_single, create, update, and delete provide the data 
+    requested by the categories api endpoints by the same name.
+
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
+
     class Category {
         // DB Connection Properties
         private $conn;

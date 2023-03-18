@@ -1,22 +1,17 @@
 <?php
-    // Headers
-    // header('Access-Control-Allow-Origin: *');
-    // header('Content-Type: application/json');
-    // header('Access-Control-Allow-Methods: PUT');
-    // header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+/*  authors/update.php provides an endpoint to modify an author record in the 
+    database identified by the row id. It may modify each column of a record 
+    except the id. It checks that input has been provided and that it is valid 
+    before attempting to modify the record. Errors return messages about the 
+    reason for failed attempts to modify the author.
 
-    // include_once '../../config/Database.php';
-    // include_once '../../models/Author.php';
+    Shared headers, include files, objects, and user data are provided by the
+    index.php file. This behavior ensures this endpoint will throw an error if 
+    it is used without passing through index.php first.
 
-    // // Instantiate DB and Connect
-    // $database = new Database();
-    // $db = $database->connect();
-
-    // // Instantiate Author Object
-    // $author_object = new Author($db);
-
-    // // Get Raw Author Data
-    // $data = json_decode(file_get_contents("php://input"));
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
 
     // Determine Whether ID is Valid. Print an error message and exit if not.
     if(empty($data->id) || !isValid($data->id, $author_object)) {
@@ -54,10 +49,10 @@
                 'author' => $author_object->author
             )
         );
-    } catch (PDOException $e) {
+    } catch(PDOException $e) {
         // This code executes if the $data->author exceeds the size of the 
         // table column.
         echo json_encode(
-                array("error" => "{$e->getMessage()}")
-            );
+            array("error" => "{$e->getMessage()}")
+        );
     }

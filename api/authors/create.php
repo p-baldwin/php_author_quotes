@@ -1,22 +1,16 @@
 <?php
-    // Headers
-    // header('Access-Control-Allow-Origin: *');
-    // header('Content-Type: application/json');
-    // header('Access-Control-Allow-Methods: POST');
-    // header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+/*  authors/create.php provides an endpoint to create a new author record in 
+    the database. It checks that input has been provided and that it is valid 
+    before attempting to create the record. Errors return messages about the 
+    reason for failed attempts to add a new author.
 
-    // include_once '../../config/Database.php';
-    // include_once '../../models/Author.php';
+    Shared headers, include files, objects, and user data are provided by the
+    index.php file. This behavior ensures this endpoint will throw an error if 
+    it is used without passing through index.php first.
 
-    // // Instantiate DB and Connect
-    // $database = new Database();
-    // $db = $database->connect();
-
-    // // Instantiate Author Object
-    // $author_object = new Author($db);
-
-    // // Get Raw User Input Data
-    // $data = json_decode(file_get_contents("php://input"));
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
 
     // If we don't have an author from the user, complain and exit.
     if(empty($data->author)) {
@@ -38,10 +32,10 @@
                 'author' => $author_object->author
             )
         );
-    } catch (PDOException $e) {
+    } catch(PDOException $e) {
         // This code executes if the $data->author exceeds the size of the 
         // table column.
         echo json_encode(
-                array("error" => "{$e->getMessage()}")
-            );
+            array("error" => "{$e->getMessage()}")
+        );
     }

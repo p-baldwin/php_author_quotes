@@ -1,22 +1,16 @@
 <?php
-    // Headers
-    // header('Access-Control-Allow-Origin: *');
-    // header('Content-Type: application/json');
-    // header('Access-Control-Allow-Methods: DELETE');
-    // header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+/*  authors/delete.php provides an endpoint to delete an existing author record 
+    in the database. It checks that input has been provided and that it is valid 
+    before attempting to delete the record. Errors return messages about the 
+    reason for failed attempts to delete the author.
 
-    // include_once '../../config/Database.php';
-    // include_once '../../models/Author.php';
+    Shared headers, include files, objects, and user data are provided by the
+    index.php file. This behavior ensures this endpoint will throw an error if 
+    it is used without passing through index.php first.
 
-    // // Instantiate DB and Connect
-    // $database = new Database();
-    // $db = $database->connect();
-
-    // // Instantiate Author Object
-    // $author_object = new Author($db);
-
-    // // Get Raw Author Data
-    // $data = json_decode(file_get_contents("php://input"));
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
 
     // Determine Whether ID is Valid. Print an error message and exit if not.
     if(empty($data->id) || !isValid($data->id, $author_object)) {
@@ -39,7 +33,7 @@
         echo json_encode(
             array('id' => $author_object->id)
         );
-    } catch (PDOException $e) {
+    } catch(PDOException $e) {
         // This code executes if the call to delete() fails.
         echo json_encode(
                 array("error" => "{$e->getMessage()}")

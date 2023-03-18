@@ -1,23 +1,18 @@
 <?php
-    // Headers
-    // header('Access-Control-Allow-Origin: *');
-    // header('Content-Type: application/json');
-    // header('Access-Control-Allow-Methods: PUT');
-    // header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+/*  categories/update.php provides an endpoint to modify a category record in 
+    the database identified by the row id. It may modify each column of a record 
+    except the id. It checks that input has been provided and that it is valid 
+    before attempting to modify the record. Errors return messages about the 
+    reason for failed attempts to modify the category.
 
-/*     include_once '../../config/Database.php';
-    include_once '../../models/Category.php';
+    Shared headers, include files, objects, and user data are provided by the
+    index.php file. This behavior ensures this endpoint will throw an error if 
+    it is used without passing through index.php first.
 
-    // Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
-
-    // Instantiate Category Object
-    $category_object = new Category($db);
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
  */
-/*     // Get Raw Category Data
-    $data = json_decode(file_get_contents("php://input"));
- */
+
     // Determine Whether ID is Valid. Print an error message and exit if not.
     if(empty($data->id) || !isValid($data->id, $category_object)) {
         echo json_encode(

@@ -1,6 +1,17 @@
 <?php
-    // Quote Class
-    class Quote {
+/*  The Quote Class encapsulates all of the properties and methods required to 
+    interact with the quotes table of the database provided to it. The database 
+    passed to the class on construction must have a table named quotes with 
+    four columns: id, quote, author_id, and category_id.
+
+    The methods read, read_single, create, update, and delete provide the data 
+    requested by the quotes api endpoints by the same name.
+
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
+
+class Quote {
         // DB Connection Properties
         private $conn;
         private $table = 'quotes';
@@ -34,19 +45,25 @@
                         LEFT JOIN
                             authors a ON p.author_id = a.id";
 
+            // If an author_id and/or category_id are provided, create the where 
+            // clause needed to filter the query to provide only the desired rows.
             if(!empty($this->author_id) && !empty($this->category_id)) {
+                // author_id and category_id provided
                 $query .= " WHERE
                                 p.author_id = :author_id 
                                 AND 
                                 p.category_id = :category_id";
             } else if(!empty($this->author_id)) {
+                // author_id provided
                 $query .= " WHERE
                                 p.author_id = :author_id";
             } else if(!empty($this->category_id)) {
+                // category_id provided
                 $query .= " WHERE
                                 p.category_id = :category_id";
             }
 
+            // Ensure the returned records default to order by id ascending
             $query .= " ORDER BY p.id";
 
             // Prepare Statement

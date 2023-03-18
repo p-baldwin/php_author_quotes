@@ -1,4 +1,17 @@
 <?php
+/*  quotes/index.php centralizes the decision about which endpoint should be 
+    returned to a user based on the request method used. It retrieves input  
+    sent by the user and makes that data available to all endpoints. The Quotes 
+    object, Database object, and include files shared by all endpoints get 
+    created here as well. 
+
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
+
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     $method = $_SERVER['REQUEST_METHOD'];

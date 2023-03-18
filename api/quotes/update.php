@@ -1,22 +1,17 @@
 <?php
-    // Headers
-    // header('Access-Control-Allow-Origin: *');
-    // header('Content-Type: application/json');
-    // header('Access-Control-Allow-Methods: PUT');
-    // header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+/*  quotes/update.php provides an endpoint to modify a quote record in the 
+    database identified by the row id. It may modify each column of a record 
+    except the id. It checks that input has been provided and that it is valid 
+    before attempting to modify the record. Errors return messages about the 
+    reason for failed attempts to modify the quote.
 
-    // include_once '../../config/Database.php';
-    // include_once '../../models/Quote.php';
+    Shared headers, include files, objects, and user data are provided by the
+    index.php file. This behavior ensures this endpoint will throw an error if 
+    it is used without passing through index.php first.
 
-    // // Instantiate DB and Connect
-    // $database = new Database();
-    // $db = $database->connect();
-
-    // // Instantiate Quote Object
-    // $quote = new Quote($db);
-
-    // // Get Raw Quote Data
-    // $data = json_decode(file_get_contents("php://input"));
+    Author: Philip Baldwin
+    Last Modification: 2023-03-18
+ */
 
     // Determine Whether ID is Valid. Print an error message and exit if not.
     if(empty($data->id) || !isValid($data->id, $quote_object)) {
@@ -42,8 +37,8 @@
     }
 
     // Determine Whether author ID is Valid. Print an error message and exit if not.
-    $author_object = new Author($db);
-    if(!isValid($data->author_id, $author_object)) {
+    $author_test_object = new Author($db);
+    if(!isValid($data->author_id, $author_test_object)) {
         echo(
             json_encode(
                 array(
@@ -51,13 +46,13 @@
                 )
             )
         );
-        $author_object = null;
+        $author_test_object = null;
         exit();
     }
 
     // Determine Whether category ID is Valid. Print an error message and exit if not.
-    $category_object = new Category($db);
-    if(!isValid($data->category_id, $category_object)) {
+    $category_test_object = new Category($db);
+    if(!isValid($data->category_id, $category_test_object)) {
         echo(
             json_encode(
                 array(
@@ -65,7 +60,7 @@
                 )
             )
         );
-        $category_object = null;
+        $category_test_object = null;
         exit();
     }
 
@@ -88,9 +83,9 @@
                 'category_id' => $quote_object->category_id
             )
         );
-    } catch (PDOException $e) {
+    } catch(PDOException $e) {
         // This code executes if the call to update() fails.
         echo json_encode(
-                array("error" => "{$e->getMessage()}")
-            );
+            array("error" => "{$e->getMessage()}")
+        );
     }
