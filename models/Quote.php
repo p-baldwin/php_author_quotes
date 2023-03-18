@@ -58,7 +58,6 @@
             } else if(!empty($this->author_id)) {
                 $stmt->bindParam(':author_id', $this->author_id);
             } else if(!empty($this->category_id)) {
-                echo "category_id found";
                 $stmt->bindParam(':category_id', $this->category_id);
             }
 

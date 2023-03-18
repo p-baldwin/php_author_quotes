@@ -33,7 +33,7 @@
 
     // Create Category In DB
     try {
-        $category_object->create()
+        $category_object->create();
         echo json_encode(
             array(
                 'id' => $category_object->id,

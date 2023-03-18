@@ -44,7 +44,7 @@
                 )
             );
             $category_object = null;
-            exit(0);
+            exit();
         }
 
         // category_id exists and is valid. Assign it to the quote object
