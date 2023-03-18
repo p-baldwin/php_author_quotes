@@ -69,9 +69,9 @@
                 'id' => $id,
                 'quote' => html_entity_decode($quote),
 //                'author' => $author_id,
-                'author_name' => $author_name,
+                'author' => $author_name,
 //                'category_id' => $category_id,
-                'category_name' => $category_name
+                'category' => $category_name
             );
 
             // Push Data

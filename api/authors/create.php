@@ -19,7 +19,7 @@
     // $data = json_decode(file_get_contents("php://input"));
 
     // If we don't have an author from the user, complain and exit.
-    if(!empty($data->author)) {
+    if(empty($data->author)) {
         echo json_encode(
             array('message' => 'Missing Required Parameters')
         );

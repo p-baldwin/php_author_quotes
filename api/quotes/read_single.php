@@ -35,10 +35,10 @@
     $quote_array = array(
         'id' => $quote_object->id,
         'quote' => html_entity_decode($quote_object->quote),
-        'author_id' => $quote_object->author_id,
-        'author_name' => $quote_object->author_name,
-        'category_id' => $quote_object->category_id,
-        'category_name' => $quote_object->category_name
+//        'author_id' => $quote_object->author_id,
+        'author' => $quote_object->author_name,
+//        'category_id' => $quote_object->category_id,
+        'category' => $quote_object->category_name
     );
 
     // Turn into JSON and Output
