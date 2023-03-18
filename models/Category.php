@@ -35,35 +35,38 @@
             return $stmt;
         }
 
-            // Get Single Category
-            public function read_single() {
-                // Create Select Query
-                $query = "SELECT 
-                                id,
-                                category
-                            FROM 
-                                {$this->table}
-                            WHERE 
-                                id = :id";
-    
-                // Prepare Statement
-                $stmt = $this->conn->prepare($query);
-    
-                // Bind Parameter to Query
-                $stmt->bindParam(':id', $this->id);
-    
-                // Execute Query
-                $stmt->execute();
-    
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-                // Set Properties
+        // Get Single Category
+        public function read_single() {
+            // Create Select Query
+            $query = "SELECT 
+                            id,
+                            category
+                        FROM 
+                            {$this->table}
+                        WHERE 
+                            id = :id";
+
+            // Prepare Statement
+            $stmt = $this->conn->prepare($query);
+
+            // Bind Parameter to Query
+            $stmt->bindParam(':id', $this->id);
+
+            // Execute Query
+            $stmt->execute();
+
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $numRows = $stmt->rowCount();
+
+            // Set Properties
+            if($numRows > 0){
                 $this->id = $row['id'];
                 $this->category = $row['category'];
-    
-                // Return results of executing Query
-                return $stmt;
             }
+
+            // Return the number of rows returned from executing Query
+            return $numRows;
+        }
 
         // Create New Category
         public function create() {
@@ -85,7 +88,9 @@
 
             // Execute Query
             if($stmt->execute()) {
-                // Return true on success
+                // Assign the category id to the current object id, then return 
+                // true on success
+                $this->id = $this->conn->lastInsertId();
                 return true;
             } else {
                 // Return false and print error on failure

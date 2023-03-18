@@ -56,14 +56,17 @@
                 $stmt->execute();
     
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+                $numRows = $stmt->rowCount();
+
                 // Set Properties
-                $this->id = $row['id'];
-                $this->author = $row['author'];
+                if($numRows > 0){
+                    $this->id = $row['id'];
+                    $this->author = $row['author'];
+                }
     
-                // Return results of executing Query
-                return $stmt;
-            }
+                // Return the number of rows returned from executing Query
+                return $numRows;
+                }
 
         // Create New Author
         public function create() {
@@ -85,7 +88,9 @@
 
             // Execute Query
             if($stmt->execute()) {
-                // Return true on success
+                // Assign the author id to the current object id, then return 
+                // true on success
+                $this->id = $this->conn->lastInsertId();
                 return true;
             } else {
                 // Return false and print error on failure

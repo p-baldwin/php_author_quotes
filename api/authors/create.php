@@ -1,33 +1,46 @@
 <?php
     // Headers
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: POST');
-    header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+    // header('Access-Control-Allow-Origin: *');
+    // header('Content-Type: application/json');
+    // header('Access-Control-Allow-Methods: POST');
+    // header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Author.php';
+    // include_once '../../config/Database.php';
+    // include_once '../../models/Author.php';
 
-    // Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
+    // // Instantiate DB and Connect
+    // $database = new Database();
+    // $db = $database->connect();
 
-    // Instantiate Author Object
-    $author_object = new Author($db);
+    // // Instantiate Author Object
+    // $author_object = new Author($db);
 
-    // Get Raw User Input Data
-    $data = json_decode(file_get_contents("php://input"));
+    // // Get Raw User Input Data
+    // $data = json_decode(file_get_contents("php://input"));
+
+    // If we don't have an author from the user, complain and exit.
+    if(!empty($data->author)) {
+        echo json_encode(
+            array('message' => 'Missing Required Parameters')
+        );
+    }
 
     // Assign Input from User to the New Author
     $author_object->author = $data->author;
 
     // Create Author
-    if($author_object->create()) {
+    try {
+        $author_object->create();
         echo json_encode(
-            array('message' => 'Author Created')
+            array(
+                'id' => $author_object->id,
+                'author' => $author_object->author
+            )
         );
-    } else {
+    } catch (PDOException $e) {
+        // This code executes if the $data->author exceeds the size of the 
+        // table column.
         echo json_encode(
-            array('message' => 'Author Not Created')
-        );
+                array("error" => "{$e->getMessage()}")
+            );
     }

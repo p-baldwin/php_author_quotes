@@ -1,33 +1,47 @@
 <?php
     // Headers
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: DELETE');
-    header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+    // header('Access-Control-Allow-Origin: *');
+    // header('Content-Type: application/json');
+    // header('Access-Control-Allow-Methods: DELETE');
+    // header('Access-Control-Allow-Headers: Access-Control-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Quote.php';
+    // include_once '../../config/Database.php';
+    // include_once '../../models/Quote.php';
 
-    // Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
+    // // Instantiate DB and Connect
+    // $database = new Database();
+    // $db = $database->connect();
 
-    // Instantiate Quote Object
-    $quote = new Quote($db);
+    // // Instantiate Quote Object
+    // $quote = new Quote($db);
 
-    // Get Raw Quote Data
-    $data = json_decode(file_get_contents("php://input"));
+    // // Get Raw Quote Data
+    // $data = json_decode(file_get_contents("php://input"));
 
-    // Set ID of Quote to Delete
-    $quote->id = $data->id;
+    // Determine Whether ID is Valid. Print an error message and exit if not.
+    if(empty($data->id) || !isValid($data->id, $quote_object)) {
+        echo(
+            json_encode(
+                array(
+                    "message" => "No Quotes Found"
+                )
+            )
+        );
+        exit();
+    }
+
+        // Set ID of Quote to Delete
+    $quote_object->id = $data->id;
 
     // Delete Quote
-    if($quote->delete()) {
+    try {
+        $quote_object->delete();
         echo json_encode(
-            array('message' => 'Quote Deleted')
+            array('id' => $quote_object->id)
         );
-    } else {
+    } catch (PDOException $e) {
+        // This code executes if the call to delete() fails.
         echo json_encode(
-            array('message' => 'Quote Not Deleted')
-        );
+                array("error" => "{$e->getMessage()}")
+            );
     }

@@ -32,12 +32,35 @@
                         LEFT JOIN
                             categories c ON p.category_id = c.id
                         LEFT JOIN
-                            authors a ON p.author_id = a.id
-                        ORDER BY
-                            p.id";
+                            authors a ON p.author_id = a.id";
+
+            if(!empty($this->author_id) && !empty($this->category_id)) {
+                $query .= " WHERE
+                                p.author_id = :author_id 
+                                AND 
+                                p.category_id = :category_id";
+            } else if(!empty($this->author_id)) {
+                $query .= " WHERE
+                                p.author_id = :author_id";
+            } else if(!empty($this->category_id)) {
+                $query .= " WHERE
+                                p.category_id = :category_id";
+            }
+
+            $query .= " ORDER BY p.id";
 
             // Prepare Statement
             $stmt = $this->conn->prepare($query);
+
+            if(!empty($this->author_id) && !empty($this->category_id)) {
+                $stmt->bindParam(':author_id', $this->author_id);
+                $stmt->bindParam(':category_id', $this->category_id);
+            } else if(!empty($this->author_id)) {
+                $stmt->bindParam(':author_id', $this->author_id);
+            } else if(!empty($this->category_id)) {
+                echo "category_id found";
+                $stmt->bindParam(':category_id', $this->category_id);
+            }
 
             // Execute Query
             $stmt->execute();
@@ -74,17 +97,20 @@
             $stmt->execute();
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $numRows = $stmt->rowCount();
 
             // Set Properties
-            $this->id = $row['id'];
-            $this->quote = $row['quote'];
-            $this->author_id = $row['author_id'];
-            $this->author_name = $row['author_name'];
-            $this->category_id = $row['category_id'];
-            $this->category_name = $row['category_name'];
+            if($numRows > 0){
+                $this->id = $row['id'];
+                $this->quote = $row['quote'];
+                $this->author_id = $row['author_id'];
+                $this->author_name = $row['author_name'];
+                $this->category_id = $row['category_id'];
+                $this->category_name = $row['category_name'];
+            }
 
-            // Return results of executing Query
-            return $stmt;
+            // Return the number of rows returned from executing Query
+            return $numRows;
         }
 
         // Create New Quote
@@ -115,7 +141,9 @@
 
             // Execute Query
             if($stmt->execute()) {
-                // Return true on success
+                // Assign the category id to the current object id, then return 
+                // true on success
+                $this->id = $this->conn->lastInsertId();
                 return true;
             } else {
                 // Return false and print error on failure

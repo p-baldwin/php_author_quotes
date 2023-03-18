@@ -1,17 +1,17 @@
 <?php
     // Headers
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
+    // header('Access-Control-Allow-Origin: *');
+    // header('Content-Type: application/json');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Author.php';
+    // include_once '../../config/Database.php';
+    // include_once '../../models/Author.php';
     
-    // Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
+    // // Instantiate DB and Connect
+    // $database = new Database();
+    // $db = $database->connect();
 
-    // Instantiate Author Object
-    $author_object = new Author($db);
+    // // Instantiate Author Object
+    // $author_object = new Author($db);
 
     // Author read query
     $result = $author_object->read();
@@ -23,7 +23,6 @@
     if($numRows > 0) {
         // Author Array
         $authors_array = array();
-        $authors_array['data'] = array();
 
         while($row = $result->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
@@ -34,7 +33,7 @@
             );
 
             // Push Data
-            array_push($authors_array['data'], $author_item);
+            array_push($authors_array, $author_item);
         }
 
         // Turn into JSON and Output

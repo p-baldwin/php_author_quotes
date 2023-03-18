@@ -1,20 +1,32 @@
 <?php
     // Headers
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
+    // header('Access-Control-Allow-Origin: *');
+    // header('Content-Type: application/json');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Author.php';
+    // include_once '../../config/Database.php';
+    // include_once '../../models/Author.php';
     
-    // Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
+    // // Instantiate DB and Connect
+    // $database = new Database();
+    // $db = $database->connect();
 
-    // Instantiate Author Object
-    $author_object = new Author($db);
+    // // Instantiate Author Object
+    // $author_object = new Author($db);
 
+    // Determine Whether ID is Valid. Print an error message and exit if not.
+    if(!isValid($id, $author_object)) {
+        echo(
+            json_encode(
+                array(
+                    "message" => "author_id Not Found"
+                )
+            )
+        );
+        exit();
+    }
+    
     // Get Author ID
-    $author_object->id = isset($_GET['id']) ? $_GET['id'] : die();
+    $author_object->id = $id; // isset($_GET['id']) ? $_GET['id'] : die();
 
     // Get Author
     $author_object->read_single();
@@ -26,4 +38,4 @@
     );
 
     // Turn into JSON and Output
-    print_r(json_encode($author_array));
+    echo json_encode($author_array);

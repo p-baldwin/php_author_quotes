@@ -1,32 +1,44 @@
 <?php
     // Headers
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
+    // header('Access-Control-Allow-Origin: *');
+    // header('Content-Type: application/json');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Quote.php';
+    // include_once '../../config/Database.php';
+    // include_once '../../models/Quote.php';
     
-    // Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
+    // // Instantiate DB and Connect
+    // $database = new Database();
+    // $db = $database->connect();
 
-    // Instantiate Quote Object
-    $quote = new Quote($db);
+    // // Instantiate Quote Object
+    // $quote = new Quote($db);
+
+    // Determine Whether ID is Valid. Print an error message and exit if not.
+    if(!isValid($id, $quote_object)) {
+        echo(
+            json_encode(
+                array(
+                    "message" => "No Quotes Found"
+                )
+            )
+        );
+        exit();
+    }
 
     // Get Quote ID
-    $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
+    $quote_object->id = $id; // isset($_GET['id']) ? $_GET['id'] : die();
 
     // Get Quote
-    $quote->read_single();
+    $quote_object->read_single();
 
     // Create Array
     $quote_array = array(
-        'id' => $quote->id,
-        'quote' => html_entity_decode($quote->quote),
-        'author_id' => $quote->author_id,
-        'author_name' => $quote->author_name,
-        'category_id' => $quote->category_id,
-        'category_name' => $quote->category_name
+        'id' => $quote_object->id,
+        'quote' => html_entity_decode($quote_object->quote),
+        'author_id' => $quote_object->author_id,
+        'author_name' => $quote_object->author_name,
+        'category_id' => $quote_object->category_id,
+        'category_name' => $quote_object->category_name
     );
 
     // Turn into JSON and Output
