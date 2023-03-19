@@ -6,7 +6,7 @@ None required.
 
 ## Usage
 
-https://replit.com/p-baldwin/phpauthorquotes/api
+https://phpauthorquotes.p-baldwin.repl.co/api
 
 ## Author
 
